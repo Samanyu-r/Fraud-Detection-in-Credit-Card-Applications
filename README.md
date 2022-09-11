@@ -1,1 +1,16 @@
 # Fraud-Detection-in-Credit-Card-Applications
+
+# Problem Statement
+The dataset provided contains credit card application fraud data. The goal was to identify synthetic identity fraud among a million personal information records. The objective was to create a supervised fraud detection model with a high fraud detection rate.
+
+# Data Description
+The dataset contains identity data used by individuals to make a purchase or other transactions from January 1st, 2016, to December 31st, 2016. The dataset has 1,000,000 records and 10 data fields which contain several important information about the applicants such as the first name, last name, date of birth, social security number (SSN), address, and phone number.
+
+# Approach
+Exploratory data analysis (EDA) was performed on each of the 10 fields which were identified as categorical. Summary statistics of each field in terms of % populated, unique values, and most common values were described. This helped identify the frivolous and missing values and treat them at the start to avoid faulty predictions.
+
+To get better insights and help identify fraudulent patterns, 1948 candidate variables were feature engineered from the given 10 candidate variables. The original categorical fields were concatenated to create different field combinations. Then for each combination, three more variable groups: the velocity candidate variables, the days-since candidate variables, and the relative velocity candidate variables were created. Velocity variables contain the number of records with the same candidate variable feature over the last n number of days. Relative velocity variables contain the number of applications with a particular candidate variable seen in the recent past divided by the number of applications with the same candidate variable seen in the past n number of days.
+
+Feature selection was then performed using select filter and wrapper methods to identify the top 30 candidate variables as a part of minimizing dimensionality. In the filtering process, Kolmogorov-Smirnov (KS) and fraud detection rate (FDR) at 3% were used to eliminate variables. FDR indicates what percentage of all the bads are caught at a particular examination cutoff location. For example, FDR 56% at 3% means the model catches 56% of all the frauds in 3% of the population. For the wrapper method, recursive feature elimination was used with cross-validation. Once the final variables were chosen, the data was divided in three sections: training, testing, and out-of-time. The out-of-time section represented the last two months of data. In addition, the first two weeks of the data was omitted to get the most accurate results possible as there was little to no data prior to each datapoint.
+
+To find the best model, the variables were tested in several different models. First,  logistic regression was used as a base model to predict fraud. Logistic regression caught 48.3% of fraud at a 3% FDR. Next, nonlinear models such as random forest, boosted trees, and neural network were used to get better results than the base model. Hyper-parameter tuning was also performed on each model to get better results. Overall, the best model was random forest trees which caught 53.6% of the fraudulent records in the testing set and 50.5 % of the fraudulent records in the validation set at a 3% FDR after parameter tuning.
